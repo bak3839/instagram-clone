@@ -38,10 +38,25 @@ public class AccountController {
         // System.out.println("받은 ID : " + email + " 받은 PW : " + password);
 
         Member member = new Member();
-        member.setEmail(requestJsonHashMap.get("email"));
+        member.setEmailOrPhone(requestJsonHashMap.get("emailOrPhone"));
         member.setName(requestJsonHashMap.get("user_name"));
+        member.setNickname(requestJsonHashMap.get("nickname"));
         member.setPassword(requestJsonHashMap.get("password"));
-        member.setPhoneNumber(requestJsonHashMap.get("name"));
+        member.setOpen(1L);
+
+        String str = member.getEmailOrPhone();
+
+        if(member.getEmailOrPhone().contains("@")) {
+            member.setEmail(str);
+            member.setPhoneNumber("");
+            System.out.println(str);
+        }
+        else {
+            member.setPhoneNumber(str);
+            member.setEmail("");
+            System.out.println(str);
+        }
+
         memberService.join(member);
         return member;
     }

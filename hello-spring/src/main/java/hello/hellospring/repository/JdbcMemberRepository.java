@@ -25,10 +25,12 @@ public class JdbcMemberRepository implements MemberRepository {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("member").usingGeneratedKeyColumns("memberNum");
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("nickName", member.getName());
+        parameters.put("nickName", member.getNickname());
         parameters.put("password", member.getPassword());
         parameters.put("email", member.getEmail());
         parameters.put("phoneNum", member.getPhoneNumber());
+        parameters.put("user_name", member.getName());
+        parameters.put("open",member.getOpen());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         member.setId(key.longValue());
         return member;
@@ -46,8 +48,19 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findByName(String name) {
-        List<Member> result = jdbcTemplate.query("select * from member where nickName = ?", memberRowMapper(), name);
+    public Optional<Member> findByNickname(String nickname) {
+        List<Member> result = jdbcTemplate.query("select * from member where nickName = ?", memberRowMapper(), nickname);
+        return result.stream().findAny();
+    }
+
+    @Override
+    public Optional<Member> findByEmail(String email) {
+        List<Member> result = jdbcTemplate.query("select * from member where email = ?", memberRowMapper(), email);
+        return result.stream().findAny();
+    }
+
+    public Optional<Member> findByPhoneNumber(String phoneNumber) {
+        List<Member> result = jdbcTemplate.query("select * from member where phoneNum = ?", memberRowMapper(), phoneNumber);
         return result.stream().findAny();
     }
 
@@ -55,10 +68,11 @@ public class JdbcMemberRepository implements MemberRepository {
         return (rs, rowNum) -> {
             Member member = new Member();
             member.setId(rs.getLong("memberNum"));
-            member.setName(rs.getString("nickName"));
+            member.setNickname(rs.getString("nickName"));
             member.setPassword(rs.getString("password"));
             member.setEmail(rs.getString("email"));
             member.setPhoneNumber(rs.getString("phoneNum"));
+            member.setName(rs.getString("user_name"));
             return member;
         };
     }

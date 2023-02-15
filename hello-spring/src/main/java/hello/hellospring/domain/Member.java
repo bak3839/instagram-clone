@@ -7,7 +7,18 @@ public class Member {
     private String password;
     private String phoneNumber;
     private String email;
+    private Long open;
+    private String emailOrPhone;
+    private String nickname;
 
+    public String getNickname() {
+        return nickname;
+    }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    public String getEmailOrPhone() {return emailOrPhone;}
+    public void setEmailOrPhone(String emailOrPhone){this.emailOrPhone = emailOrPhone;}
     public Long getId() {
         return id;
     }
@@ -47,4 +58,10 @@ public class Member {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setOpen(Long open) {this.open = open;}
+
+    public Long getOpen() {return open;}
+
+
 }
