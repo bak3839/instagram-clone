@@ -58,9 +58,25 @@ public class JdbcMemberRepository implements MemberRepository {
         List<Member> result = jdbcTemplate.query("select * from member where email = ?", memberRowMapper(), email);
         return result.stream().findAny();
     }
-
+    @Override
     public Optional<Member> findByPhoneNumber(String phoneNumber) {
         List<Member> result = jdbcTemplate.query("select * from member where phoneNum = ?", memberRowMapper(), phoneNumber);
+        return result.stream().findAny();
+    }
+
+    @Override
+    public Optional<Member> findByLogin(String password, String id, int C) {
+        List<Member> result;
+
+        if(C == 1) {
+            result = jdbcTemplate.query("select * from member where email = ? AND password = ?", memberRowMapper(), id, password);
+        }
+        else if(C == 2) {
+            result = jdbcTemplate.query("select * from member where phoneNum = ? AND password = ?", memberRowMapper(), id, password);
+        }
+        else {
+            result = jdbcTemplate.query("select * from member where nickName = ? AND password = ?", memberRowMapper(), id, password);
+        }
         return result.stream().findAny();
     }
 

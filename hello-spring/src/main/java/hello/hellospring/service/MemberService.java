@@ -2,7 +2,6 @@ package hello.hellospring.service;
 
 import hello.hellospring.domain.Member;
 import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.support.NullValue;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -39,6 +40,41 @@ public class MemberService {
 
         memberRepository.save(member);
         return member.getId();
+    }
+
+    public Optional<Member> login(String Id, String pw) {
+        Optional<Member> result;
+
+        int C = 0;
+
+        if(Id.contains("@")) {
+            C = 1;
+        }
+        else if(validPhoneNum(Id)){
+            C = 2;
+        }
+        else {
+            C = 3;
+        }
+
+        result = memberRepository.findByLogin(pw, Id, C);
+
+        if(result.isEmpty()) {
+            throw new IllegalStateException("잘못된 회원정보입니다.");
+        }
+
+        System.out.println("로그인 성공입니다.");
+        return result;
+    }
+
+    public boolean validPhoneNum(String num) {
+        Pattern pattern = Pattern.compile("\\d{11}");
+        Matcher matcher = pattern.matcher(num);
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<Member> findMembers(){

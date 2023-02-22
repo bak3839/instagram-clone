@@ -5,6 +5,9 @@ import hello.hellospring.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 @CrossOrigin(originPatterns = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
@@ -16,12 +19,13 @@ public class LoginController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/insert")
-    public void login(@RequestParam String email, @RequestParam String password) {
-        System.out.println("ID : " + email + "PW : " + password);
+    @PostMapping("/insert")
+    public void login(@RequestBody HashMap<String, String> requestJsonHashMap) {
+        String Id = requestJsonHashMap.get("id");
+        String Pw = requestJsonHashMap.get("password");
 
-       /* Member member = new Member();
-        member.setEmail(email);
-        member.setPassword(password);*/
+        Optional<Member> result = memberService.login(Id, Pw);
+
+        System.out.println("ID : " + Id + " PW : " + Pw);
     }
 }
