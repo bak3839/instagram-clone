@@ -1,5 +1,6 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.Dto.TokenInfo;
 import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,9 @@ public class LoginController {
         String Id = requestJsonHashMap.get("id");
         String Pw = requestJsonHashMap.get("password");
 
-        Optional<Member> result = memberService.login(Id, Pw);
+        //Optional<Member> result = memberService.login(Id, Pw);
+
+        TokenInfo result = memberService.login2(Id, Pw);
 
         System.out.println("ID : " + Id + " PW : " + Pw);
     }
