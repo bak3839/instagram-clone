@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class JdbcMemberRepository implements MemberRepository {
         parameters.put("email", member.getEmail());
         parameters.put("phoneNum", member.getPhoneNumber());
         parameters.put("user_name", member.getName());
-        parameters.put("open",member.getOpen());
+        parameters.put("open", member.getOpen());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         member.setId(key.longValue());
         return member;

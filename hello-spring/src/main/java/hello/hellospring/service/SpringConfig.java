@@ -1,7 +1,5 @@
 package hello.hellospring.service;
 
-import hello.hellospring.Token.JwtProvider;
-import hello.hellospring.domain.Member;
 import hello.hellospring.repository.JdbcMemberRepository;
 import hello.hellospring.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
