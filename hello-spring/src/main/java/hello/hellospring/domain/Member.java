@@ -15,13 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Entity
 public class Member implements UserDetails {
 
-    @Id
     private Long id;
     private String name;
     private String password;

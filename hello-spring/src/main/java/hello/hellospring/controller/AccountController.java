@@ -18,21 +18,6 @@ public class AccountController {
         this.memberService = memberService;
     }
 
-    /*@PostMapping("/account")
-    public Member create(@RequestBody String email,
-                         @RequestBody String name,
-                         @RequestBody String user_name,
-                         @RequestBody String password) {
-        System.out.println("받은 ID : " + email + " 받은 PW : " + password);
-        Member member = new Member();
-        member.setEmail(email);
-        member.setName(user_name);
-        member.setPassword(password);
-        member.setPhoneNumber(name);
-        memberService.join(member);
-        return member;
-    }*/
-
     @PostMapping("/account")
     public Member create(@RequestBody HashMap<String, String> requestJsonHashMap) {
         // System.out.println("받은 ID : " + email + " 받은 PW : " + password);
@@ -46,7 +31,7 @@ public class AccountController {
 
         String str = member.getEmailOrPhone();
 
-        if(member.getEmailOrPhone().contains("@")) {
+        if(str.contains("@")) {
             member.setEmail(str);
             member.setPhoneNumber("");
             System.out.println(str);
