@@ -23,31 +23,25 @@ public class LoginController {
     }
 
     @PostMapping("/insert")
-    public TokenInfo login(@RequestBody HashMap<String, String> requestJsonHashMap) {
+    public String login(@RequestBody HashMap<String, String> requestJsonHashMap) {
         String Id = requestJsonHashMap.get("id");
         String Pw = requestJsonHashMap.get("password");
 
         //Optional<Member> result = memberService.login(Id, Pw);
         TokenInfo result = memberService.login2(Id, Pw);
 
-        Cookie cookie1 = new Cookie("accessToken", result.getAccessToken());
-        Cookie cookie2 = new Cookie("refreshToken", result.getRefreshToken());
+        Cookie cookie = new Cookie("refreshToken", result.getRefreshToken());
 
-        cookie1.setPath("/");
-        cookie2.setPath("/");
-        cookie1.setSecure(true);
-        cookie2.setSecure(true);
-        cookie1.setMaxAge(3600);
-        cookie2.setMaxAge(3600);
-        cookie1.setHttpOnly(true);
-        cookie2.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setSecure(true);
+        cookie.setMaxAge(86400); // 1일
+        cookie.setHttpOnly(true);
 
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        response.addCookie(cookie1);
-        response.addCookie(cookie2);
+        response.addCookie(cookie);
 
         System.out.println(result);
         System.out.println("ID : " + Id + " PW : " + Pw);
-        return result;
+        return result.getAccessToken();
     }
 }
