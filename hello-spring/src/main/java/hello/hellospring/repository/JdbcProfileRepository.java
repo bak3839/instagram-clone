@@ -25,9 +25,9 @@ public class JdbcProfileRepository {
         parameters.put("imageName", profile.getImageName());
         parameters.put("message", profile.getMessage());
         parameters.put("link", profile.getLink());
+        parameters.put("member_memrberNum", profile.getMember_memrberNum());
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         profile.setProfileNum(key.longValue());
         return profile;
     }
-
 }

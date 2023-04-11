@@ -14,23 +14,22 @@ import java.util.HashMap;
 
 @CrossOrigin(originPatterns = "http://localhost:8080")
 @RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api")
 @Controller
 public class ProfileController {
     private final ProfileService profileService;
     private final JdbcProfileRepository profileRepository;
 
-    @PostMapping("/profile/edit")
-    public Profile create(@RequestParam("message") String message,
-                          @RequestParam("link") String link,
-                          @RequestParam("imageName") MultipartFile imageName) throws IOException {
+    @PostMapping("/upload")
+    public Profile create(@RequestParam("imageName") MultipartFile imageName) throws IOException {
         Profile profile = new Profile();
         byte[] imageBytes = imageName.getBytes();
-
-        profile.setLink(link);
-        profile.setMessage(message);
+        Long n = 1L;
+        profile.setLink(null);
+        profile.setMessage(null);
         profile.setImageName(imageBytes);
+        profile.setMember_memrberNum(n);
 
         return profileRepository.save(profile);
     }

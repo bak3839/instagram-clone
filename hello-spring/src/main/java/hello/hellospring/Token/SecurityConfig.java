@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/insert", "/api/account").permitAll()
+                .antMatchers("/api/insert", "/api/account", "/api/upload", "/edit").permitAll()
                 .antMatchers("/api/main").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
